@@ -17,12 +17,61 @@ injectTapEventPlugin();
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      Name: '',
+      quote: ''
+    }
   }
-  
+  onHandleSubmit(e) {
+    e.preventDefault();
+    if (this.state.Name === '' && this.state.quote === '') {
+      alert('Please Provide Field');
+    } else {
+      return request.post('/create-quote')
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .set('X-Requested-With', 'XMLHttpRequest')
+        .send({
+          Name: this.state.Name,
+          quote: this.state.quote
+        }).then((res) => {
+          this.setState({ Name: '' });
+          this.setState({ quote: '' });
+          this.loadQuote();
+        }, err => {
+          console.log("login error", err);
+        });
+    }
+  }
   render() {
     return (
       <div>
         {this.props.children}
+        <div style={{ padding: 10, display: 'flex', justifyContent: 'center' }}>
+          <Paper style={{ padding: 10, display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
+            <div>
+              <label>Name:</label>
+              <TextField
+                hintText="Enter Your Name"
+                ref="Name"
+                value={this.state.Name}
+                onChange={(e) => this.setState({ Name: e.target.value })}
+              />
+            </div>
+            <div>
+              <label>Quote: </label>
+              <TextField
+                hintText="Enter Your Quote"
+                ref="qoute"
+                value={this.state.quote}
+                onChange={(e) => this.setState({ quote: e.target.value })}
+              />
+            </div>
+            <div>
+              <FlatButton label="submit" style={{ marginTop: 10 }} secondary={true} onClick={(e) => this.onHandleSubmit(e)} />
+            </div>
+          </Paper>
+        </div>
       </div>
     )
   }
