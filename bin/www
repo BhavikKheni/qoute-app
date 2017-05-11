@@ -1,0 +1,53 @@
+#!/bin/env node
+
+const cm = require("commander");
+
+const fs = require("fs");
+const path = require("path");
+const chalk = require("chalk");
+const version = require("../package.json").version;
+
+cm.version(version)
+  .usage("-c <path> [options]")
+  .option("-c, --config <path>", "Configuration file", "config.js")
+  .option("-p, --port <number>", "Server port")
+  .option("-d, --dev", "Run in dev mode", false)
+  .parse(process.argv);
+
+if (cm.config) {
+  cm.config = path.resolve(cm.config);
+} else {
+  cm.help();
+}
+
+if (!fs.existsSync(cm.config)) {
+  console.error(chalk.bold.red("\nConfiguration file doesn't exist."));
+  console.error("\nSee " + chalk.yellow("config.example.js") + " for a reference...");
+  console.error("");
+  process.exit(-1);
+}
+
+// register babel hook
+require("babel-register")();
+
+// get configuration
+const cfg = require(cm.config).default;
+const config = require("../server/config/config").default;
+
+// update configuration
+Object.assign(config, cfg);
+
+if (cm.port > 0) {
+  config.server.port = cm.port;
+}
+
+// start the server
+require("../server").start()
+.then((app) => {
+  console.log("Server started: " + chalk.yellow("http://localhost:" + app.config.server.port));
+}).catch((err) => {
+  console.error(chalk.bold.red("Unable to start server."));
+  console.error(err);
+  process.exit(-1);
+});
+
