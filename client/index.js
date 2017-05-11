@@ -13,14 +13,32 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-
+const style = {
+  height: 'auto',
+  width: 300,
+  margin: 20,
+  padding: 10
+};
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      quotes:[],
       Name: '',
       quote: ''
     }
+  }
+  loadQuote() {
+    return request.post('/quote-list')
+      .then((res) => {
+        this.setState({ quotes: res.body });
+      }, err => {
+        console.log("login error", err);
+      });
+
+  }
+  componentDidMount() {
+    this.loadQuote();
   }
   onHandleSubmit(e) {
     e.preventDefault();
@@ -71,6 +89,18 @@ class App extends Component {
               <FlatButton label="submit" style={{ marginTop: 10 }} secondary={true} onClick={(e) => this.onHandleSubmit(e)} />
             </div>
           </Paper>
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {
+            this.state.quotes && this.state.quotes.map((q, i) =>
+              <Card style={style} key={i}>
+                <CardHeader
+                  title={q.Name}
+                />
+                <strong>{q.quote}</strong>
+              </Card>
+            )
+          }
         </div>
       </div>
     )

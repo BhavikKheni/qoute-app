@@ -14,3 +14,11 @@ export function create(req, res) {
         return res.json({ quote: quote });
     });
 }
+export function list(req, res, next) {
+  return Quote.find().exec((err, quotes) => {
+    if (err) return next(err);
+    if (quotes) {
+      return res.json(quotes);
+    }
+  });
+}
