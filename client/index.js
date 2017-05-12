@@ -7,9 +7,11 @@ import Home from './home';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import FontIcon from 'material-ui/FontIcon';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import './style.css';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -23,7 +25,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quotes:[],
+      quotes: [],
       Name: '',
       quote: ''
     }
@@ -102,6 +104,12 @@ class App extends Component {
             )
           }
         </div>
+        <div style={{ position: 'fixed', bottom: 30,right:10 }}>
+          <IconButton
+            href="http://github.com/BhavikKheni"
+            iconClassName="muidocs-icon-custom-github"
+            tooltip="BhavikKheni"
+          /></div>
       </div>
     )
   }
