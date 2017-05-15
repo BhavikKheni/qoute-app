@@ -22,10 +22,10 @@ const config = {
     'app': './client/index.js'
   },
 
-  devtool: production ? null : "source-map",
+  devtool: production ? false : "source-map",
 
   output: {
-    path: "./dist",
+    path: path.join(__dirname, './dist'),
     filename: "bundle.js"
   },
  module: {
