@@ -1,6 +1,6 @@
 ## About Quotes App
 
-    Share your daily qoutes.
+    Share your daily quotes.
 
 
 ## Tools
@@ -13,6 +13,5 @@
 ## Start App
 
     npm install
-
 
     npm start
