@@ -50,7 +50,7 @@
     "lodash": "^4.17.4",
     "material-ui": "^0.18.0",
     "method-override": "^2.3.7",
-    "mongoose": "^4.9.1",
+    "mongoose": "^5.7.6",
     "morgan": "^1.8.1",
     "node-rest-client": "^2.5.0",
     "passport": "^0.3.2",
